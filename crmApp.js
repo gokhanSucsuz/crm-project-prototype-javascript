@@ -79,6 +79,7 @@ function addLeadFunc(e) {
 	}
 	// tbodyTrs = document.querySelectorAll(".record");
 	form.reset();
+	load();
 }
 
 function addNoteFunc(e) {
@@ -89,4 +90,14 @@ function addNoteFunc(e) {
 
 function leadDetail(index2) {
 	ui.leadDetailModal(index2, storageLeads, storageNotes);
+}
+function deleteLeadFunc(index) {
+	let leads = storageLeads.getLeadsFromStorage();
+	let notes = storageNotes.getNotesFromS();
+	console.log(notes[index][0], leads[index].id);
+	storageLeads.deleteLeadFromS(leads[index].id);
+	storageNotes.deleteNotesFromS(notes[index][0]);
+	ui.deleteLeadFromUI(leads[0].id);
+	ui.deleteNotesFromUI(leads[0].id);
+	load();
 }

@@ -1,18 +1,12 @@
 function UI() {}
 
 UI.prototype.loadLeads = (storageLeads) => {
-	//console.log(storageLeads);
 	const tbody = document.querySelector("tbody");
-	const error = document.querySelector(".error");
 	leads = storageLeads.getLeadsFromStorage();
 	if (leads.length < 1) {
-		const h5 = document.createElement("h5");
-		h5.classList = "fw-bold text-danger text-center";
-		h5.innerHTML = "There is not any leads!";
-		error.appendChild(h5);
-		error.classList.remove("d-none");
+		ui.showMessage("There is not any leads!", "danger");
 	} else {
-		error.classList.add("d-none");
+		// error.classList.add("d-none");
 		leads.forEach((lead, index) => {
 			const tr = document.createElement("tr");
 			tr.classList = "record";
@@ -26,20 +20,18 @@ UI.prototype.loadLeads = (storageLeads) => {
 			const surName = document.createElement("td");
 			surName.textContent = lead.lastName;
 			tr.appendChild(surName);
-
 			const phone = document.createElement("td");
 			phone.textContent = lead.phone;
 			tr.appendChild(phone);
 			const email = document.createElement("td");
 			email.textContent = lead.email;
 			tr.appendChild(email);
-
 			const td = document.createElement("td");
 			td.innerHTML += `
 			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap btns">
 			<button onclick="leadDetail(${index})" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="detailBtn btn btn-sm btn-primary w-100">Detail</button>
 			<button onclick="leadEdit(${index})" class="editBtn btn btn-sm btn-info w-100">Edit</button>
-			<button onclick="leadDelete(${index})" class="deleteBtn btn btn-sm btn-danger w-100">Delete</button>
+			<button onclick="deleteLeadFunc(${index})" class="deleteBtn btn btn-sm btn-danger w-100">Delete</button>
 			</div>`;
 			tr.appendChild(td);
 			tbody.appendChild(tr);
@@ -47,6 +39,7 @@ UI.prototype.loadLeads = (storageLeads) => {
 	}
 };
 UI.prototype.leadDetailModal = function (index2, storageLeads, storageNotes) {
+	modalBodyUl.innerHTML = "";
 	let notes = storageNotes.getNotesFromS();
 	let leads = storageLeads.getLeadsFromStorage();
 	leads
@@ -57,30 +50,17 @@ UI.prototype.leadDetailModal = function (index2, storageLeads, storageNotes) {
 			notes
 				.filter((note) => note[0] == lead.id)
 				.forEach((note, index) => {
-					console.log(notes[index2][index]);
-					const li = document.createElement("li");
-					li.classList = "list-group-item";
-					li.innerHTML =
-						`<span class="fw-bolder">Note ${index2 + 1}:</span> ` + note;
-					modalBodyUl.appendChild(li);
+					console.log(note[1]);
+					note[1].forEach((note, index) => {
+						const li = document.createElement("li");
+						li.classList = "list-group-item";
+						li.innerHTML =
+							`<span class="fw-bolder">Note ${index + 1}:</span> ` + note;
+						modalBodyUl.appendChild(li);
+					});
 				});
-			// if (lead.length > 4) {
-			// 	for (let i = 5; i < lead.length; i++) {
-			// 		const li = document.createElement("li");
-			// 		li.classList = "list-group-item";
-			// 		li.innerHTML =
-			// 			`<span class="fw-bolder">Note ${i - 4}:</span> ` + lead[i];
-			// 		modalBodyUl.appendChild(li);
-			// 	}
-			// } else {
-			// 	const li = document.createElement("li");
-			// 	li.classList = "list-group-item";
-			// 	li.innerHTML = `<span class="fw-bolder text-danger">There is not any note...</span> `;
-			// 	modalBodyUl.appendChild(li);
-			// }
 		});
 };
-UI.prototype.loadNotes = () => {};
 UI.prototype.addNewNote = function () {
 	const div = document.createElement("div");
 	div.classList = "col-md-12 form-floating mb-3";
@@ -116,7 +96,7 @@ UI.prototype.addLeadToUI = (newLead) => {
 			<button onclick="leadEdit(${
 				record.length
 			})" class="editBtn btn btn-sm btn-info w-100">Edit</button>
-			<button onclick="leadDelete(${
+			<button onclick="deleteLeadFunc(${
 				record.length
 			})" class="deleteBtn btn btn-sm btn-danger w-100">Delete</button>
 			</div>
@@ -130,7 +110,7 @@ UI.prototype.deleteLeadFromUI = (id) => {};
 UI.prototype.deleteNotesFromUI = (id) => {};
 UI.prototype.deleteAllFromUI = () => {};
 UI.prototype.clearForm = () => {};
-UI.prototype.showMessage = (message, state) => {
+UI.prototype.showMessage = function (message, state) {
 	const cardBody = document.querySelector(".card-body");
 
 	const div = document.createElement("div");
@@ -143,5 +123,3 @@ UI.prototype.showMessage = (message, state) => {
 		div.remove();
 	}, 2000);
 };
-UI.prototype.showNotesUI = (id) => {};
-UI.prototype.hideNotesUI = (id) => {};
