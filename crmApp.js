@@ -9,34 +9,23 @@ const addNewNote = document.querySelector("#addNewNote");
 const formControlElements = document.querySelector("#formControlElements");
 const tbody = document.querySelector("tbody");
 let tbodyTrs = document.querySelectorAll(".record");
-
 const modalTitle = document.querySelector(".modal-title");
 const modalBodyUl = document.querySelector(".modal-body ul");
-const closeModal = document.querySelector(".closeModal");
 const txtSearch = document.querySelector("#txtSearch");
 const form = document.querySelector("form");
 const updateDeleteBtn = document.querySelectorAll(".updateDeleteBtn");
-let detailBtns = document.querySelectorAll(".detailBtn");
-let editBtns = document.querySelectorAll(".editBtn");
-let deleteBtns = document.querySelectorAll(".deleteBtn");
 const leadID = document.querySelector("#leadID");
-
 let storageLeads = new StorageLeads();
 let storageNotes = new StorageNotes();
 
-// let leadFromFetchAPI = fetch("https://fakestoreapi.com/users/1")
-// 	.then((res) => res.json())
-// 	.then((lead) => console.log(lead.id));
-
 const ui = new UI();
-
 const eventListeners = () => {
 	load();
 	addNewLead.addEventListener("click", addLeadFunc);
 	addNewNote.addEventListener("click", addNoteFunc);
+	cancelBtn.addEventListener("click", cancelFormFunc);
 };
 eventListeners();
-
 function load() {
 	tbody.innerHTML = "";
 	ui.loadLeads(storageLeads);
@@ -44,7 +33,6 @@ function load() {
 	editBtns = document.querySelectorAll(".editBtn");
 	deleteBtns = document.querySelectorAll(".deleteBtn");
 }
-
 function addLeadFunc(e) {
 	e.preventDefault();
 	if (
@@ -64,9 +52,8 @@ function addLeadFunc(e) {
 			email.value.trim()
 		);
 		ui.addLeadToUI(newLead);
-		console.log(storageLeads);
 		storageLeads.addLeadToS(newLead);
-		let notes = document.querySelectorAll(".note");
+		let notes = document.querySelectorAll(".leadNote");
 		const newLeadNotes = [];
 		notes.forEach((note) => {
 			note.value.trim().length != 0 && newLeadNotes.push(note.value.trim());
@@ -77,27 +64,43 @@ function addLeadFunc(e) {
 		});
 		ui.showMessage("New record successfully added!", "success");
 	}
-	// tbodyTrs = document.querySelectorAll(".record");
 	form.reset();
 	load();
 }
-
 function addNoteFunc(e) {
 	e.preventDefault();
 	e.preventDefault();
 	ui.addNewNote();
 }
-
 function leadDetail(index2) {
 	ui.leadDetailModal(index2, storageLeads, storageNotes);
 }
 function deleteLeadFunc(index) {
 	let leads = storageLeads.getLeadsFromStorage();
 	let notes = storageNotes.getNotesFromS();
-	console.log(notes[index][0], leads[index].id);
 	storageLeads.deleteLeadFromS(leads[index].id);
 	storageNotes.deleteNotesFromS(notes[index][0]);
-	ui.deleteLeadFromUI(leads[0].id);
-	ui.deleteNotesFromUI(leads[0].id);
 	load();
+}
+
+function leadEditFunc(index) {
+	let leads = storageLeads.getLeadsFromStorage();
+	let notes = storageNotes.getNotesFromS();
+	let id = leads[index].id;
+	ui.editLeadToUI(leads, id, notes, index);
+	updateBtn.addEventListener("click", () => {
+		ui.updateLeadToUI(leads, id, notes);
+
+		load();
+		cancelBtn.classList.add("d-none");
+		addNewLead.classList.remove("d-none");
+		addNewNote.removeAttribute("disabled");
+		updateBtn.classList.add("d-none");
+		updateBtn.remove;
+		// form.reset();
+	});
+}
+function cancelFormFunc() {
+	//form.reset();
+	ui.clearForm();
 }

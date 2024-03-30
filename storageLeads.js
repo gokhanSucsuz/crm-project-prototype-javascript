@@ -14,12 +14,12 @@ StorageLeads.prototype.getLeadsFromStorage = function () {
 	return leads;
 };
 
+StorageLeads.prototype.updateLeadsFromStorage = function (updatedLeads) {
+	localStorage.setItem(key, JSON.stringify(updatedLeads));
+};
+
 StorageLeads.prototype.deleteLeadFromS = function (id) {
 	let leads = this.getLeadsFromStorage();
 	const newLeads = leads.filter((lead) => lead.id != id);
 	localStorage.setItem(key, JSON.stringify(newLeads));
-};
-
-StorageLeads.prototype.clearAllLeadsFromS = function () {
-	localStorage.clear();
 };

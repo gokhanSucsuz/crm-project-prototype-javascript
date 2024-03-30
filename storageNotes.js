@@ -7,6 +7,9 @@ StorageNotes.prototype.addNotesToS = function (id, newNotes) {
 	leadNotes.push(...notes, [id, newNotes]);
 	localStorage.setItem(keyN, JSON.stringify(leadNotes));
 };
+StorageNotes.prototype.updateNotesFromS = function (notesUpdated) {
+	localStorage.setItem(keyN, JSON.stringify(notesUpdated));
+};
 
 StorageNotes.prototype.getNotesFromS = function () {
 	return (notes = localStorage.getItem(keyN)
@@ -16,8 +19,6 @@ StorageNotes.prototype.getNotesFromS = function () {
 
 StorageNotes.prototype.deleteNotesFromS = function (id) {
 	let notes = this.getNotesFromS();
-	console.log(notes);
 	const newNotes = notes.filter((note) => note[0] != id);
-	console.log(newNotes[0]);
 	localStorage.setItem(keyN, JSON.stringify(newNotes));
 };
