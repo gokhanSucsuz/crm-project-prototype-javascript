@@ -218,5 +218,4 @@ UI.prototype.filter = function (filterValue) {
 UI.prototype.filterElement = function () {
 	const filterValue = txtSearch.value.trim().toLowerCase();
 	filterFunc(filterValue);
-	console.log(filterValue);
 };

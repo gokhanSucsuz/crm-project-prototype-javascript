@@ -83,6 +83,7 @@ function deleteLeadFunc(index) {
 	storageLeads.deleteLeadFromS(leads[index].id);
 	storageNotes.deleteNotesFromS(notes[index][0]);
 	load();
+	ui.showMessage("Record is permanantly deleted!", "warning");
 }
 function leadEditFunc(index) {
 	let leads = storageLeads.getLeadsFromStorage();
@@ -91,7 +92,7 @@ function leadEditFunc(index) {
 	ui.editLeadToUI(leads, id, notes, index);
 	updateBtn.addEventListener("click", () => {
 		ui.updateLeadToUI(leads, id, notes);
-
+		ui.showMessage("Update is successfully done!", "success");
 		load();
 		cancelBtn.classList.add("d-none");
 		addNewLead.classList.remove("d-none");
@@ -100,7 +101,6 @@ function leadEditFunc(index) {
 		updateBtn.remove;
 		const leadNotes = document.querySelectorAll(".leadNote");
 		const labels = document.querySelectorAll(".note");
-		console.log(leadNotes.length);
 		leadNotes.forEach((leadNote, index) => {
 			index >= 1 && leadNote.remove();
 		});
