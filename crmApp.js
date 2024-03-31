@@ -83,7 +83,6 @@ function deleteLeadFunc(index) {
 	storageNotes.deleteNotesFromS(notes[index][0]);
 	load();
 }
-
 function leadEditFunc(index) {
 	let leads = storageLeads.getLeadsFromStorage();
 	let notes = storageNotes.getNotesFromS();

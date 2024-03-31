@@ -16,13 +16,11 @@ StorageNotes.prototype.getNotesFromS = function () {
 		? JSON.parse(localStorage.getItem(keyN))
 		: []);
 };
-
 StorageNotes.prototype.deleteNotesFromS = function (id) {
 	let notes = this.getNotesFromS();
 	const newNotes = notes.filter((note) => note[0] != id);
 	localStorage.setItem(keyN, JSON.stringify(newNotes));
 };
-
 StorageNotes.prototype.deleteAllFromS = function () {
 	localStorage.removeItem(keyN);
 };

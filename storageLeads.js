@@ -1,6 +1,5 @@
 const key = "leads";
 function StorageLeads() {}
-
 StorageLeads.prototype.addLeadToS = function (newLead) {
 	let leadsList = this.getLeadsFromStorage();
 	leadsList.push(newLead);
@@ -13,11 +12,9 @@ StorageLeads.prototype.getLeadsFromStorage = function () {
 	//console.log(leads);
 	return leads;
 };
-
 StorageLeads.prototype.updateLeadsFromStorage = function (updatedLeads) {
 	localStorage.setItem(key, JSON.stringify(updatedLeads));
 };
-
 StorageLeads.prototype.deleteLeadFromS = function (id) {
 	let leads = this.getLeadsFromStorage();
 	const newLeads = leads.filter((lead) => lead.id != id);
