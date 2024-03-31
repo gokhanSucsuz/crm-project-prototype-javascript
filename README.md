@@ -1,0 +1,3 @@
+This project was prepared using localstorage and prototype and performs crud operations...
+
+https://crm-project-prototype-javascript.vercel.app/
