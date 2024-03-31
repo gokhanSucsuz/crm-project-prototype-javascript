@@ -27,6 +27,7 @@ const eventListeners = () => {
 };
 eventListeners();
 function load() {
+	form.reset();
 	tbody.innerHTML = "";
 	ui.loadLeads(storageLeads);
 	detailBtns = document.querySelectorAll(".detailBtn");
@@ -97,10 +98,17 @@ function leadEditFunc(index) {
 		addNewNote.removeAttribute("disabled");
 		updateBtn.classList.add("d-none");
 		updateBtn.remove;
-		// form.reset();
+		const leadNotes = document.querySelectorAll(".leadNote");
+		const labels = document.querySelectorAll(".note");
+		console.log(leadNotes.length);
+		leadNotes.forEach((leadNote, index) => {
+			index >= 1 && leadNote.remove();
+		});
+		labels.forEach((label, index) => {
+			index >= 1 && label.remove();
+		});
 	});
 }
 function cancelFormFunc() {
-	//form.reset();
 	ui.clearForm();
 }

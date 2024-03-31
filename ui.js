@@ -1,5 +1,4 @@
 function UI() {}
-
 UI.prototype.loadLeads = () => {
 	const tbody = document.querySelector("tbody");
 	leads = storageLeads.getLeadsFromStorage();
@@ -138,7 +137,6 @@ UI.prototype.editLeadToUI = function (leads, id, notes, index) {
 				});
 		});
 };
-
 UI.prototype.updateLeadToUI = (leads, id, notes) => {
 	leads.map((lead) => {
 		if (lead.id === id) {
@@ -150,21 +148,15 @@ UI.prototype.updateLeadToUI = (leads, id, notes) => {
 	});
 	storageLeads.updateLeadsFromStorage(leads);
 	let leadNotes = document.querySelectorAll(".leadNote");
-	let arr = [];
-	let arr2 = [];
 	notes
 		.filter((note) => note[0] == id)
 		.map((note) => {
-			arr.push(id);
-			leadNotes.forEach((leadNote) => {
-				note[1] = leadNote.value.trim();
-				arr2.push(note[1]);
-				console.log(arr2);
+			leadNotes.forEach((leadNote, index) => {
+				note[1][index] = leadNote.value.trim();
 			});
-			arr.push(arr2);
 		});
-	console.log(arr);
-	storageNotes.updateNotesFromS([...notes, arr]);
+	storageNotes.deleteAllFromS();
+	storageNotes.updateNotesFromS(notes);
 };
 UI.prototype.clearForm = function () {
 	cancelBtn.classList.add("d-none");
@@ -189,7 +181,6 @@ UI.prototype.clearForm = function () {
 };
 UI.prototype.showMessage = function (message, state) {
 	const cardBody = document.querySelector(".card-body");
-
 	const div = document.createElement("div");
 	div.className = `alert alert-${state}`;
 	div.textContent = message;

@@ -22,3 +22,7 @@ StorageNotes.prototype.deleteNotesFromS = function (id) {
 	const newNotes = notes.filter((note) => note[0] != id);
 	localStorage.setItem(keyN, JSON.stringify(newNotes));
 };
+
+StorageNotes.prototype.deleteAllFromS = function () {
+	localStorage.removeItem(keyN);
+};
