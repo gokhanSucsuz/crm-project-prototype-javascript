@@ -14,13 +14,14 @@ const modalBodyUl = document.querySelector(".modal-body ul");
 const txtSearch = document.querySelector("#txtSearch");
 const form = document.querySelector("form");
 const updateDeleteBtn = document.querySelectorAll(".updateDeleteBtn");
-const leadID = document.querySelector("#leadID");
+let leadID = document.querySelector("#leadID");
 let storageLeads = new StorageLeads();
 let storageNotes = new StorageNotes();
 
 const ui = new UI();
 const eventListeners = () => {
 	load();
+	leadID.addEventListener("change", load);
 	addNewLead.addEventListener("click", addLeadFunc);
 	addNewNote.addEventListener("click", addNoteFunc);
 	cancelBtn.addEventListener("click", cancelFormFunc);
@@ -86,14 +87,15 @@ function deleteLeadFunc(index) {
 	ui.showMessage("Record is permanantly deleted!", "warning");
 }
 function leadEditFunc(index) {
+	form.reset();
 	let leads = storageLeads.getLeadsFromStorage();
 	let notes = storageNotes.getNotesFromS();
 	let id = leads[index].id;
+
 	ui.editLeadToUI(leads, id, notes, index);
 	updateBtn.addEventListener("click", () => {
 		ui.updateLeadToUI(leads, id, notes);
 		ui.showMessage("Update is successfully done!", "success");
-		load();
 		cancelBtn.classList.add("d-none");
 		addNewLead.classList.remove("d-none");
 		addNewNote.removeAttribute("disabled");
@@ -107,6 +109,9 @@ function leadEditFunc(index) {
 		labels.forEach((label, index) => {
 			index >= 1 && label.remove();
 		});
+		leadID = leads[index].id;
+		load();
+		location.reload();
 	});
 }
 function cancelFormFunc() {
