@@ -24,6 +24,7 @@ const eventListeners = () => {
 	addNewLead.addEventListener("click", addLeadFunc);
 	addNewNote.addEventListener("click", addNoteFunc);
 	cancelBtn.addEventListener("click", cancelFormFunc);
+	txtSearch.addEventListener("keyup", filterElement);
 };
 eventListeners();
 function load() {
@@ -110,4 +111,10 @@ function leadEditFunc(index) {
 }
 function cancelFormFunc() {
 	ui.clearForm();
+}
+const filterFunc = (filterValue) => {
+	ui.filter(filterValue);
+};
+function filterElement() {
+	ui.filterElement();
 }

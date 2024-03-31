@@ -206,3 +206,17 @@ UI.prototype.editOk = function () {
 		detail.setAttribute("disabled", true);
 	});
 };
+UI.prototype.filter = function (filterValue) {
+	Array.from(tbody.children)
+		.filter((todo) => !todo.textContent.toLowerCase().includes(filterValue))
+		.forEach((todo) => todo.classList.add("filtered"));
+
+	Array.from(tbody.children)
+		.filter((todo) => todo.textContent.toLowerCase().includes(filterValue))
+		.forEach((todo) => todo.classList.remove("filtered"));
+};
+UI.prototype.filterElement = function () {
+	const filterValue = txtSearch.value.trim().toLowerCase();
+	filterFunc(filterValue);
+	console.log(filterValue);
+};
